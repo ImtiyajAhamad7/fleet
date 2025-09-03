@@ -7,10 +7,15 @@ import bookingRoutes from "./routes/booking.routes";
 import { errorHandler } from "./middlewares/errorHandlers";
 
 const app = express();
+const allowedOrigins = [
+  "http://localhost:3000",
+  "http://localhost:3001",
+  "http://localhost:3002",
+];
 
 app.use(
   cors({
-    origin: "http://localhost:3000",
+    origin: allowedOrigins,
     credentials: true,
   })
 );

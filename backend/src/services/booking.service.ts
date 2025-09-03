@@ -6,6 +6,7 @@ import { getLatLongFromPincode } from "../utils/geoapify.util";
 
 export class BookingService {
   static async createBooking(data: any) {
+    console.log("data", data);
     const {
       vehicleId,
       fromPincode,
@@ -35,7 +36,7 @@ export class BookingService {
     // 2. Get lat/long for from & to
     const fromCoords = await getLatLongFromPincode(fromPincode);
     const toCoords = await getLatLongFromPincode(toPincode);
-    console.log("first", fromCoords, toCoords);
+
     if (!fromCoords || !toCoords)
       throw new Error("Could not fetch lat/long for pincodes");
 
@@ -73,7 +74,7 @@ export class BookingService {
       estimatedRideHours: rideHours,
       capacity,
     });
-
+    Vehicle.findByIdAndUpdate(vehicleId, { isAvailable: false }).exec();
     return booking;
   }
 
@@ -89,6 +90,11 @@ export class BookingService {
 
     booking.status = "canceled";
     await booking.save();
+    Vehicle.findByIdAndUpdate(booking?.vehicleId, { isAvailable: true }).exec();
     return booking;
+  }
+
+  static async getBookingById(customerId: string) {
+    return Booking.find({ customerId }).exec();
   }
 }

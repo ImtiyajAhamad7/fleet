@@ -14,6 +14,11 @@ export class VehicleService {
     return Vehicle.find({ id: id });
   }
   static async getVehicleByFilter(filter: any) {
-    return Vehicle.find(filter);
+    const query: any = {};
+    if (filter.capacity) {
+      query.capacity = { $gte: Number(filter.capacity) };
+    }
+    query.isAvailable = true;
+    return Vehicle.find(query).exec();
   }
 }

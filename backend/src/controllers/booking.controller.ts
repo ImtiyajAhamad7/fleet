@@ -20,3 +20,17 @@ export const cancelBooking = async (req: Request, res: Response) => {
     res.status(400).json({ message: err.message });
   }
 };
+export const getMyBookings = async (req: Request, res: Response) => {
+  try {
+    const { customerId } = req.query;
+
+    if (!customerId || typeof customerId !== "string") {
+      return res.status(400).json({ message: "customerId is required" });
+    }
+
+    const bookings = await BookingService.getBookingById(customerId);
+    res.status(200).json(bookings);
+  } catch (err: any) {
+    res.status(500).json({ message: err.message });
+  }
+};

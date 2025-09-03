@@ -1,11 +1,11 @@
-"use client";
+"use client"
 
-import { useState } from "react";
-import { useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
-import * as yup from "yup";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { useState } from "react"
+import { useForm } from "react-hook-form"
+import { yupResolver } from "@hookform/resolvers/yup"
+import * as yup from "yup"
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
 import {
   Form,
   FormControl,
@@ -13,17 +13,17 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { qaxios } from "@/lib/axios";
-import toast from "react-hot-toast";
+} from "@/components/ui/form"
+import { qaxios } from "@/lib/axios"
+import toast from "react-hot-toast"
 
 type Vehicle = {
-  _id: string;
-  vehicleName: string;
-  capacity: number;
-  tyres: number;
-  estimatedDuration: string;
-};
+  _id: string
+  vehicleName: string
+  capacity: number
+  tyres: number
+  estimatedDuration: string
+}
 
 const schema = yup.object({
   capacity: yup
@@ -33,13 +33,13 @@ const schema = yup.object({
   fromPincode: yup.string().required("From Pincode is required"),
   toPincode: yup.string().required("To Pincode is required"),
   startTime: yup.string().required("Start time is required"),
-});
+})
 
 export default function SearchAndBookVehicle() {
-  const [vehicles, setVehicles] = useState<Vehicle[]>([]);
-  const [message, setMessage] = useState<string>("");
-  const [loading, setLoading] = useState(false);
-  const [bookingLoading, setBookingLoading] = useState<string | null>(null); // track booking per vehicle
+  const [vehicles, setVehicles] = useState<Vehicle[]>([])
+  const [message, setMessage] = useState<string>("")
+  const [loading, setLoading] = useState(false)
+  const [bookingLoading, setBookingLoading] = useState<string | null>(null) // track booking per vehicle
 
   const form = useForm<yup.InferType<typeof schema>>({
     resolver: yupResolver(schema),
@@ -49,29 +49,29 @@ export default function SearchAndBookVehicle() {
       toPincode: "",
       startTime: "",
     },
-  });
+  })
 
-  type FormValues = yup.InferType<typeof schema>;
+  type FormValues = yup.InferType<typeof schema>
 
   async function onSubmit(values: FormValues) {
-    setMessage("");
-    setLoading(true);
+    setMessage("")
+    setLoading(true)
     try {
       const res = await qaxios.get(`/vehicle/getVehiclesByFilter`, {
         params: values,
-      });
-      setVehicles(res.data);
+      })
+      setVehicles(res.data)
     } catch (err) {
-      setMessage("Something went wrong while fetching vehicles");
+      setMessage("Something went wrong while fetching vehicles")
     } finally {
-      setLoading(false);
+      setLoading(false)
     }
   }
 
   // 📌 Book Now API
   async function handleBookNow(vehicleId: string) {
-    const formValues = form.getValues(); // get current form values
-    setBookingLoading(vehicleId);
+    const formValues = form.getValues() // get current form values
+    setBookingLoading(vehicleId)
     try {
       const res = await qaxios.post(`/booking/createBooking`, {
         vehicleId,
@@ -79,14 +79,13 @@ export default function SearchAndBookVehicle() {
         fromPincode: formValues.fromPincode,
         toPincode: formValues.toPincode,
         startTime: formValues.startTime,
-        customerId: 123,
-      });
-      toast.success("Booking Confirmed");
-      onSubmit(formValues);
+        customerId:123
+      })
+      toast.success("Booking Confirmed")
     } catch (err: any) {
-      toast.error("Booking Failed");
+      toast.error("Booking Failed")
     } finally {
-      setBookingLoading(null);
+      setBookingLoading(null)
     }
   }
 
@@ -241,5 +240,5 @@ export default function SearchAndBookVehicle() {
         </div>
       </div>
     </div>
-  );
+  )
 }

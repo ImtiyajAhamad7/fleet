@@ -36,8 +36,8 @@ export const getVehicleById = async (req: Request, res: Response) => {
 };
 export const getVehicleByFilter = async (req: Request, res: Response) => {
   try {
-    const { filter } = req.params;
-    const vehicle = await VehicleService.getVehicleById(filter);
+    const filter = { ...req.query };
+    const vehicle = await VehicleService.getVehicleByFilter(filter);
     res.status(200).json(vehicle);
   } catch (err: any) {
     res.status(400).json({ message: err.message });

@@ -4,7 +4,7 @@ import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import toast from "react-hot-toast";
-import { useRouter } from "next/navigation";
+
 interface Vehicle {
   _id: string;
   vehicleName: string;
@@ -18,6 +18,7 @@ export default function VehicleList({ vehicles }: { vehicles: Vehicle[] }) {
   async function handleBook(vehicleId: string) {
     // try {
     //   setLoading(vehicleId);
+
     //   const res = await fetch("/api/bookings", {
     //     method: "POST",
     //     headers: { "Content-Type": "application/json" },
@@ -29,8 +30,10 @@ export default function VehicleList({ vehicles }: { vehicles: Vehicle[] }) {
     //       startTime: new Date().toISOString(),
     //     }),
     //   });
+
     //   const data = await res.json();
     //   if (!res.ok) throw new Error(data.message || "Booking failed");
+
     //   toast.success(`Booking Confirmed ✅ You booked ${data.vehicleName}`);
     // } catch (err: any) {
     //   toast.error(`Booking Failed ❌ ${err.message}`);
@@ -38,7 +41,6 @@ export default function VehicleList({ vehicles }: { vehicles: Vehicle[] }) {
     //   setLoading(null);
     // }
   }
-  const router = useRouter();
 
   return (
     <div className="grid gap-4 md:grid-cols-3 p-4">
@@ -51,10 +53,11 @@ export default function VehicleList({ vehicles }: { vehicles: Vehicle[] }) {
             <p>Capacity: {v.capacity}</p>
             <p>Tyres: {v.tyres}</p>
             <Button
-              onClick={() => router.push(`/searchAndBookVehicle`)}
-              className="mt-3 w-full cursor-pointer"
+              onClick={() => handleBook(v._id)}
+              disabled={loading === v._id}
+              className="mt-3 w-full"
             >
-              Book Now
+              {loading === v._id ? "Booking..." : "Book Vehicle"}
             </Button>
           </CardContent>
         </Card>
