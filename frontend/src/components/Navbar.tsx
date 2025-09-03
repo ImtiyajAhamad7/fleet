@@ -37,17 +37,6 @@ const Navbar = () => {
               </NavigationMenuLink>
             </NavigationMenuItem>
 
-            {/* <NavigationMenuItem>
-              <NavigationMenuLink asChild>
-                <Link
-                  href="/dashboard"
-                  className="text-gray-700 hover:text-blue-600 transition-colors"
-                >
-                  Dashboard
-                </Link>
-              </NavigationMenuLink>
-            </NavigationMenuItem> */}
-
             <NavigationMenuItem>
               <NavigationMenuLink asChild>
                 <Link
@@ -82,16 +71,6 @@ const Navbar = () => {
             </NavigationMenuItem>
           </NavigationMenuList>
         </NavigationMenu>
-
-        {/* Auth Section */}
-        <div className="flex items-center space-x-2">
-          <Button variant="ghost" asChild>
-            <Link href="/login">Login</Link>
-          </Button>
-          <Button asChild>
-            <Link href="/signup">Signup</Link>
-          </Button>
-        </div>
       </div>
     </header>
   );
