@@ -18,8 +18,8 @@ export const getVehicle = async (req: Request, res: Response) => {
 };
 export const getAvailableVehicles = async (req: Request, res: Response) => {
   try {
-    const { id } = req.params;
-    const vehicle = await VehicleService.getAvailableVehicles();
+    const { filter } = req.params;
+    const vehicle = await VehicleService.getAvailableVehicles(filter);
     res.status(200).json(vehicle);
   } catch (err: any) {
     res.status(400).json({ message: err.message });

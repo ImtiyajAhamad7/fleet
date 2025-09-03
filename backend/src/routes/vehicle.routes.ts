@@ -1,10 +1,13 @@
 import { Router } from "express";
 import { loginUser, registerUser } from "../controllers/user.controller";
-import { AddVehicle } from "../controllers/vehicle.controller";
+import {
+  AddVehicle,
+  getAvailableVehicles,
+} from "../controllers/vehicle.controller";
 
 const router = Router();
 
 router.post("/addVehicle", AddVehicle);
-router.post("/getVehicle", loginUser);
+router.get("/getVehicle", getAvailableVehicles);
 
 export default router;

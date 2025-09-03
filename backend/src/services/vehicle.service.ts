@@ -7,7 +7,7 @@ export class VehicleService {
   static async getAllVehicles() {
     return Vehicle.find();
   }
-  static async getAvailableVehicles() {
+  static async getAvailableVehicles(filter: any) {
     return Vehicle.find({ isAvailable: true });
   }
   static async getVehicleById(id: string) {
